@@ -1,3 +1,4 @@
+from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -13,6 +14,7 @@ def profile(path='data/heart_disease.csv'):
 
 def save_target_plot(path='data/heart_disease.csv', output='reports/risk_distribution.png'):
     df = pd.read_csv(path)
+    Path(output).parent.mkdir(parents=True, exist_ok=True)
     df['high_risk'].value_counts().sort_index().plot(kind='bar')
     plt.title('Healthcare Risk Class Distribution')
     plt.xlabel('High Risk')
@@ -20,6 +22,7 @@ def save_target_plot(path='data/heart_disease.csv', output='reports/risk_distrib
     plt.tight_layout()
     plt.savefig(output, dpi=160)
     plt.close()
+
 
 if __name__ == '__main__':
     profile()
