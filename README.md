@@ -1,35 +1,46 @@
 # Healthcare Risk Analytics
 
-A reproducible healthcare machine-learning portfolio project that demonstrates data quality checks, exploratory analysis, model comparison, threshold-based risk classification, evaluation artifacts, and a Streamlit dashboard.
+[![Healthcare ML CI](https://github.com/mahaveerreddysamala/healthcare-risk-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/mahaveerreddysamala/healthcare-risk-analytics/actions/workflows/ci.yml)
 
-> **Important:** This repository is an educational portfolio demonstration, not a clinical decision-support system. The included dataset is intentionally small for reproducibility, so model metrics should not be interpreted as production or clinical evidence.
+A reproducible healthcare machine-learning portfolio project that demonstrates data quality checks, exploratory analysis, leakage-safe preprocessing, model comparison, threshold-based risk classification, evaluation artifacts, automated testing, CI, and a Streamlit dashboard.
 
-## What this project demonstrates
+> **Important:** This repository is an educational portfolio demonstration, not a clinical decision-support system. The included dataset is intentionally tiny and synthetic for reproducibility. Perfect-looking metrics on 10 rows are **not** evidence of clinical performance or production readiness.
 
-- Python data analysis with Pandas
-- Automated EDA and data-quality reporting
-- Categorical encoding and numeric imputation/scaling
-- Logistic Regression, Random Forest, and Gradient Boosting comparison
-- Class-imbalance handling and threshold optimization
-- Reproducible train/test evaluation
-- Feature-importance reporting
-- Unit/integration tests with pytest and coverage
-- GitHub Actions CI with Python 3.11
-- Streamlit analytics dashboard
-- Responsible ML documentation and healthcare-specific risk considerations
+## Portfolio highlights
+
+- **Data analysis:** Pandas-based profiling, missing-value checks, target distribution, and numeric summaries.
+- **ML pipeline:** Imputation, scaling, categorical encoding, and model training inside scikit-learn pipelines.
+- **Model comparison:** Logistic Regression, Random Forest, and Gradient Boosting.
+- **Risk evaluation:** Configurable probability threshold with accuracy, precision, recall, F1, ROC-AUC, confusion matrix, and ROC outputs.
+- **Testing:** pytest integration/unit tests with coverage reporting.
+- **Automation:** GitHub Actions validates dependencies, compilation, tests, EDA, model comparison, and evaluation on every push and pull request.
+- **Delivery:** CI publishes generated evaluation reports as a workflow artifact for review.
+- **Dashboard:** Streamlit app for quick exploration of risk distribution and patient-level signals.
+- **Responsible ML:** Explicit discussion of leakage, class imbalance, false-negative risk, interpretability, validation, privacy, fairness, and governance.
 
 ## Project workflow
 
 ```text
-Data → Quality Checks → EDA → Preprocessing → Model Comparison
-                                      ↓
-                              Risk Model Training
-                                      ↓
-                         Threshold-based Evaluation
-                                      ↓
-                     Metrics / ROC / Feature Importance
-                                      ↓
-                              Streamlit Dashboard
+patients.csv
+    ↓
+Data validation / EDA
+    ↓
+Leakage-safe preprocessing
+    ├── numeric imputation + scaling
+    └── categorical imputation + one-hot encoding
+    ↓
+Model comparison
+    ├── Logistic Regression
+    ├── Random Forest
+    └── Gradient Boosting
+    ↓
+Train/test evaluation
+    ↓
+Threshold-based classification
+    ↓
+Metrics + confusion matrix + ROC + feature importance
+    ↓
+Streamlit dashboard
 ```
 
 ## Repository structure
@@ -41,7 +52,8 @@ healthcare-risk-analytics/
 │   └── patients.csv
 ├── docs/
 │   ├── architecture.md
-│   └── INTERVIEW_GUIDE.md
+│   ├── INTERVIEW_GUIDE.md
+│   └── PORTFOLIO.md
 ├── notebooks/
 ├── sql/
 ├── src/
@@ -60,7 +72,8 @@ healthcare-risk-analytics/
 ## Run locally
 
 ```bash
-pip install -r requirements.txt
+cd C:\Users\mahav\GitHubProjects\healthcare-risk-analytics
+python -m pip install -r requirements.txt
 pytest -q --cov=src --cov-report=term-missing
 python -m src.eda
 python -m src.model_comparison
@@ -74,9 +87,21 @@ The evaluation pipeline writes generated artifacts to `reports/`, including:
 - `confusion_matrix.csv`
 - `roc_curve.csv`
 - `feature_importance.csv`
-- EDA summaries and charts
+- model comparison and EDA summaries/charts
 
-Generated reports and test/coverage files are excluded from Git via `.gitignore`.
+Generated reports and test/coverage files are excluded from Git via `.gitignore`. CI uploads the reports as a downloadable workflow artifact.
+
+## Current validation snapshot
+
+The latest local validation completed with **5 tests passing and 89% total source coverage**. The small demonstration dataset produces 1.00 metrics in the current split; this is expected to be treated as a reproducibility check rather than a meaningful estimate of real-world healthcare performance.
+
+## CI / CD / portfolio deployment
+
+**CI:** Every push and pull request runs dependency installation, Python compilation, pytest + coverage, EDA generation, model comparison, and evaluation. Generated reports are retained as a CI artifact.
+
+**CD:** The Streamlit application is deployment-ready from the repository root. For portfolio delivery, connect this GitHub repository to Streamlit Community Cloud and set the entry point to `app.py`; subsequent pushes to the selected branch can trigger an application redeploy. Keep deployment credentials and environment-specific secrets outside the repository.
+
+**Portfolio presentation:** See [`docs/PORTFOLIO.md`](docs/PORTFOLIO.md) for the recommended recruiter-facing story, architecture explanation, validation commands, deployment checklist, and interview talking points.
 
 ## Responsible ML
 
